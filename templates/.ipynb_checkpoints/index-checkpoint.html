@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Playback</title>
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #e3f2fd, #90caf9);
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+
+      .container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
+      }
+
+      button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      .waveform-container {
+        margin: 1.5rem 0;
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        width: 100%;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafafa;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .waveform-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .speaker-info {
+        font-size: 1.2rem;
+        color: #555;
+        margin-top: 1rem;
+        font-weight: bold;
+      }
+
+      footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #777;
+      }
+    </style>
+    <script>
+      function updateWaveform() {
+        fetch('/waveform').then(response => response.json()).then(data => {
+          document.getElementById('waveform').src = 'data:image/png;base64,' + data.waveform_image;
+          document.getElementById('speaker').innerText = data.speaker_label;
+        });
+      }
+      setInterval(updateWaveform, 500);
+    </script>
+  </head>
+  <body>
+    <h1>Audio Playback & Processing</h1>
+    <div class="container">
+      <form action="/" method="post">
+        <button type="submit">Play Audio</button>
+      </form>
+      <div class="waveform-container">
+        <img id="waveform" src="" alt="Waveform visualization will appear here">
+      </div>
+      <div class="speaker-info" id="speaker">No speaker detected</div>
+    </div>
+    <footer>
+      &copy; 2024 Audio Processing Application
+    </footer>
+  </body>
+</html>
